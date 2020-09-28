@@ -1,0 +1,274 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Data e Hora: 28-09-2020 as 11:35:10
+-- Versão del servidor: 10.4.11-MariaDB
+-- Versão de PHP: 7.4.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de dados: `library_db`
+--
+
+DELIMITER $$
+--
+-- Definição do usuário ROOT para o BD
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `generate_due_list` ()  NO SQL
+SELECT I.issue_id, M.email, B.isbn, B.title
+FROM book_issue_log I INNER JOIN member M on I.member = M.username INNER JOIN book B ON I.book_isbn = B.isbn
+WHERE DATEDIFF(CURRENT_DATE, I.due_date) >= 0 AND DATEDIFF(CURRENT_DATE, I.due_date) % 5 = 0 AND (I.last_reminded IS NULL OR DATEDIFF(I.last_reminded, CURRENT_DATE) <> 0)$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Componentes da Tabela `book`
+--
+
+CREATE TABLE `book` (
+  `isbn` char(13) NOT NULL,
+  `title` varchar(80) NOT NULL,
+  `author` varchar(80) NOT NULL,
+  `category` varchar(80) NOT NULL,
+  `price` int(4) UNSIGNED NOT NULL,
+  `copies` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dados iniciais da Tabela `book`
+--
+
+INSERT INTO `book` (`isbn`, `title`, `author`, `category`, `price`, `copies`) VALUES
+('0000545010225', 'Harry Potter e as Relíquias da Morte', 'J. K. Rowling', 'Ficção', 55000, 451),
+('0000553103547', 'Jogo dos Tronos', 'George R. R. Martin', 'Ficção', 50000, 13),
+('0000553106635', 'Uma Tempestade de Espadas', 'George R. R. Martin', 'Ficção', 55000, 15),
+('0000553108034', 'Choque de Reyes', 'George R. R. Martin', 'Ficção', 50000, 10),
+('0000553801503', 'Uma Festa para os Corvos', 'George R. R. Martin', 'Ficção', 60000, 20),
+('0000747532699', 'Harry Potter e a Pedra Filosofal', 'J. K. Rowling', 'Ficção', 30000, 12),
+('0000747538492', 'Harry Potter e a Câmara Secreta', 'J. K. Rowling', 'Ficção', 30000, 10),
+('0000747542155', 'Harry Potter e o Prisioneiro de Azkaban', 'J. K. Rowling', 'Ficção', 35000, 16),
+('0000747546240', 'Harry Potter e o Cálice de Fogo', 'J. K. Rowling', 'Ficção', 40000, 15),
+('0000747551006', 'Harry Potter e a Ordem da Fênix', 'J. K. Rowling', 'Ficção', 40000, 20),
+('0000747581088', 'Harry Potter e o Príncipe Mestiço', 'J. K. Rowling', 'Ficção', 50000, 25),
+('9780066620992', 'Bom para Ótimo', 'Jim Collins', 'Não ficção', 30000, 10),
+('9780241257555', 'O Túnio dos Pombos', 'John le Carrão', 'Não ficção', 20000, 25),
+('9780439023511', 'Tordo', 'Suzanne Collins', 'Ficção', 50000, 20),
+('9780439023528', 'O Jogo da Fome', 'Suzanne Collins', 'Ficção', 40000, 10),
+('9780545227247', 'Em Chamas', 'Suzanne Collins', 'Ficção', 40000, 15),
+('9780553801477', 'Uma Dança com os Dragões', 'George R. R. Martin', 'Ficção', 60000, 30),
+('9780590353427', 'Início do Desenvolvimento de Aplicativos Android', 'Wei Meng Lee', 'Educação', 15600, 45),
+('9780967752808', 'Sandbox Wisdom', 'Tom Asacker', 'Não Ficção', 25000, 5),
+('9781501141515', 'Nascido para Correr', 'Bruce Springsteen', 'Não Ficção', 25000, 20),
+('9788183331630', 'Empezemos con C', 'Jorge Vega', 'Educação', 20000, 22),
+('9789350776667', 'Computação Gráfica e Realidade Virtual', 'Julián Páez', 'Educação', 10000, 30),
+('9789350776773', 'Microcontrolador e Sistemas Embarcados', 'Natalia Pérez', 'Educação', 80000, 15),
+('9789350777077', 'Sistemas Avançados de Gerenciamento de Banco de Dados', 'Daniel Camargo', 'Educação', 60000, 30),
+('9789350777121', 'Sistemas operativos', 'Roberto García', 'Educação', 50000, 24),
+('9789351194545', 'Tecnologias de Código Aberto', 'Juan Castro', 'Educação', 10000, 20),
+('9789381626719', 'Continue com Fome continue Tolo', 'Andrés Mendoza', 'Não Ficção', 10000, 5);
+
+
+-- --------------------------------------------------------
+
+--
+-- Componentes da Tabela `book_issue_log`
+--
+
+CREATE TABLE `book_issue_log` (
+  `issue_id` int(11) NOT NULL,
+  `member` varchar(20) NOT NULL,
+  `book_isbn` varchar(13) NOT NULL,
+  `due_date` date NOT NULL,
+  `last_reminded` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Disparadores `book_issue_log`
+--
+DELIMITER $$
+CREATE TRIGGER `issue_book` BEFORE INSERT ON `book_issue_log` FOR EACH ROW BEGIN
+	SET NEW.due_date = DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY);
+    UPDATE member SET balance = balance - (SELECT price FROM book WHERE isbn = NEW.book_isbn) WHERE username = NEW.member;
+    UPDATE book SET copies = copies - 1 WHERE isbn = NEW.book_isbn;
+    DELETE FROM pending_book_requests WHERE member = NEW.member AND book_isbn = NEW.book_isbn;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `return_book` BEFORE DELETE ON `book_issue_log` FOR EACH ROW BEGIN
+    UPDATE member SET balance = balance + (SELECT price FROM book WHERE isbn = OLD.book_isbn) WHERE username = OLD.member;
+    UPDATE book SET copies = copies + 1 WHERE isbn = OLD.book_isbn;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Componentes da Tabela `librarian`
+--
+
+CREATE TABLE `librarian` (
+  `id` int(11) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` char(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Definição do usuário da Tabela `librarian`
+--
+
+INSERT INTO `librarian` (`id`, `username`, `password`) VALUES
+(1, 'Jobs', '1020');
+
+-- --------------------------------------------------------
+
+--
+-- Componentes da Tabela `member`
+--
+
+CREATE TABLE `member` (
+  `id` int(11) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` char(40) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `email` varchar(80) NOT NULL,
+  `balance` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Definição do usuário da Tabela `member`
+--
+
+INSERT INTO `member` (`id`, `username`, `password`, `name`, `email`, `balance`) VALUES
+(8, 'Linus', '1020', 'Linus Torvalds', 'torvalds@gmail.com', 80529);
+
+--
+-- Disparadores `member`
+--
+DELIMITER $$
+CREATE TRIGGER `add_member` AFTER INSERT ON `member` FOR EACH ROW DELETE FROM pending_registrations WHERE username = NEW.username
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `remove_member` AFTER DELETE ON `member` FOR EACH ROW DELETE FROM pending_book_requests WHERE member = OLD.username
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Componentes da Tabela `pending_book_requests`
+--
+
+CREATE TABLE `pending_book_requests` (
+  `request_id` int(11) NOT NULL,
+  `member` varchar(20) NOT NULL,
+  `book_isbn` varchar(13) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Componentes da Tabela `pending_registrations`
+--
+
+CREATE TABLE `pending_registrations` (
+  `username` varchar(20) NOT NULL,
+  `password` char(40) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `email` varchar(80) NOT NULL,
+  `balance` int(4) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Índices das Tabelas
+--
+
+--
+-- Índice da Tabela `book`
+--
+ALTER TABLE `book`
+  ADD PRIMARY KEY (`isbn`);
+
+--
+-- Índice da Tabela `book_issue_log`
+--
+ALTER TABLE `book_issue_log`
+  ADD PRIMARY KEY (`issue_id`);
+
+--
+-- Índice da Tabela `librarian`
+--
+ALTER TABLE `librarian`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Índice da Tabela `member`
+--
+ALTER TABLE `member`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Índice da Tabela `pending_book_requests`
+--
+ALTER TABLE `pending_book_requests`
+  ADD PRIMARY KEY (`request_id`);
+
+--
+-- Índice da Tabela `pending_registrations`
+--
+ALTER TABLE `pending_registrations`
+  ADD PRIMARY KEY (`username`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT das Tabelas
+--
+
+--
+-- AUTO_INCREMENT da Tabela `book_issue_log`
+--
+ALTER TABLE `book_issue_log`
+  MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT da Tabela `librarian`
+--
+ALTER TABLE `librarian`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT da Tabela `member`
+--
+ALTER TABLE `member`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT da Tabela `pending_book_requests`
+--
+ALTER TABLE `pending_book_requests`
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
