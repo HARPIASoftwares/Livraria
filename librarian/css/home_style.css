@@ -11,7 +11,7 @@ body{
 	max-width: 600px;
 	margin: 4em auto;
 	font-size: 1.3rem;
-	color: #94aab0;
+	color: #0ad6dd;
 	margin-bottom: 10px;
 	display: block;
 }
@@ -41,7 +41,7 @@ body{
 
 #allTheThings input[type="button"]:focus {
   outline: none;
-  background: #363738;
+  background: #0ad6dd;
 }
 
 #allTheThings input[type="button"]:active {

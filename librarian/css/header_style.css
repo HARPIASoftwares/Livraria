@@ -23,7 +23,7 @@ img {
 header {
   position: relative;
   height: 50px;
-  background: #343642;
+  background: #0ad6dd;
 }
 
 header #cd-logo {
@@ -48,10 +48,9 @@ header #cd-logo img , header #cd-logo p{
 }
 
 header #cd-logo p{
-	font-size: 2.2rem !important;
-	color: #3fc8da;
+	color: #26d3d3;
 	font-weight: bold;
-	font-size: 1.4rem;
+	font-size: 2.2rem;
 }
 
 header::after {
@@ -59,10 +58,6 @@ header::after {
   content: '';
   display: table;
   clear: both;
-}
-
-header a {
-	text-decoration: none;
 }
 
 @media only screen and (min-width: 768px) {
@@ -77,58 +72,4 @@ header a {
     -o-transform: scale(1);
     transform: scale(1);
   }
-}
-
-.dropbtn {
-	background: url("../img/ic_librarian.svg") no-repeat 8px center;
-    background-color: #2fadd3;
-	margin-top: 10%;
-    color: white;
-	min-width: 120px;
-    padding: 0 8px 0 8px;
-    font-size: 16px;
-	font-family: "Open Sans", sans-serif;
-    border: none;
-    cursor: pointer;
-}
-
-
-#librarian-name{
-	margin-left: 32px;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-	float: right;
-	margin-right: 5%;
-}
-
-.dropdown-content {
-    display: none;
-	right: 0;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-	font-size: 1.6rem;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-	background-color: #f1f1f1
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown:hover .dropbtn {
-    background-color: #d89e32;;
 }
