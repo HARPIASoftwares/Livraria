@@ -76,7 +76,7 @@
 				$query->bind_param("ssssdd", $_POST['b_isbn'], $_POST['b_title'], $_POST['b_author'], $_POST['b_category'], $_POST['b_price'], $_POST['b_copies']);
 				
 				if(!$query->execute())
-					die(error_without_field("ERRO: Não foi poderia adicionar livro"));
+					die(error_without_field("ERRO: Não foi possível adicionar livro"));
 				echo success("Livro Adicionado com sucesso!");
 			}
 		}

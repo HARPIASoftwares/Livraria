@@ -20,7 +20,7 @@
 			$result = $query->get_result();;
 			$rows = mysqli_num_rows($result);
 			if($rows == 0)
-				echo "<h2 align='center'>Ops! Não tem nenhum Pedido.</h2>";
+				echo "<h2 align='center'>Ops, que pena! Você não possui nenhum Pedido.</h2>";
 			else
 			{
 				echo "<form class='cd-form' method='POST' action='#'>";
@@ -47,7 +47,7 @@
 						</td>";
 					// QUANTIDADE DE LIVROS PARA EMPRÉSTIMO	LIMITAÇÃO DE 3 UN	
 					for($j=1; $j<4; $j++)
-						echo "<td>".$row[$j]."</td>";
+					echo "<td>".$row[$j]."</td>";
 					echo "</tr>";
 				}
 				echo "</table>";
@@ -138,7 +138,7 @@
 						$query = $con->prepare("DELETE FROM pending_book_requests WHERE request_id = ?");
 						$query->bind_param("d", $request_id);
 						if(!$query->execute())
-							die(error_without_field("ERRO: Falha na exclusão de valores"));
+							die(error_without_field("ERRO: Falha na exclusão de valores."));
 						
 						mail($to, $subject, $message, $header);
 					}
@@ -146,5 +146,5 @@
 				if($requests > 0)
 					echo success("Pedido negado! ".$requests." registro");
 				else
-					echo error_without_field("Nenhuma solicitação selecionada");
+					echo error_without_field("Nenhuma solicitação selecionada!");
 			}

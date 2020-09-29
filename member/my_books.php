@@ -21,7 +21,7 @@
 			$result = $query->get_result();
 			$rows = mysqli_num_rows($result);
 			if($rows == 0)
-				echo "<h2 align='center'>Nenhum livro atualmente solicitado</h2>";
+				echo "<h2 align='center'>Nenhum livro atualmente solicitado.</h2>";
 			else
 			{
 				echo "<form class='cd-form' method='POST' action='#'>";
@@ -68,7 +68,7 @@
 					}
 				}
 				echo "</table><br />";
-				echo "<input type='submit' name='b_return' value='Devolver livro' />";
+				echo "<input type='submit' name='b_return' value='Devolver' />";
 				echo "</form>";
 			}
 			
@@ -91,7 +91,7 @@
 						$query = $con->prepare("DELETE FROM book_issue_log WHERE member = ? AND book_isbn = ?;");
 						$query->bind_param("ss", $_SESSION['username'], $_POST['cb_book'.$i]);
 						if(!$query->execute())
-							die(error_without_field("ERRO: Eu não poderia devolver os livros"));
+							die(error_without_field("ERRO: Eu não poderei devolver os livros"));
 						
 						if($days > 0)
 						{
@@ -127,7 +127,7 @@
 						header("Location: ../logout.php");
 				}
 				else
-					echo error_without_field("Por favor, selecione o livro para retornar");
+					echo error_without_field("Por favor, selecione o livro para devolver!");
 			}
 		?>
 		

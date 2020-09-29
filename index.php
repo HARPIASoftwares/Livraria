@@ -31,6 +31,10 @@
 					</a>
 				</div>
 			</div>
+			<br><br>
+			<h2 align="center">"O homem não é nada além daquilo que a educação faz dele."<h2>
+			<h5 align="center">- Emannuel Kant<h5>
 		</div>
+		
 	</body>
 </html>

@@ -53,7 +53,7 @@
 				$resultRow = mysqli_fetch_array($result);
 				$balance = $resultRow[1];
 				if($balance < 0)
-					echo error_without_field("Sua conta foi suspensa. Entre em contato com um bibliotecário para obter mais informações");
+					echo error_without_field("Sua conta foi suspensa. Entre em contato com um bibliotecário para obter mais informações.");
 				else
 				{
 					$_SESSION['type'] = "member";

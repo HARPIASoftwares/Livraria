@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<form class="cd-form" method="POST" action="#">
-			<legend>Inserir informações</legend>
+			<legend>Inserir informações abaixo:</legend>
 			
 				<div class="error-message" id="error-message">
 					<p id="error"></p>
@@ -46,7 +46,7 @@
 				$query->bind_param("ds", $_POST['b_copies'], $_POST['b_isbn']);
 				if(!$query->execute())
 					die(error_without_field("ERRO: Não foi possível adicionar cópias"));
-				echo success("Cópias atualizadas com sucesso");
+				echo success("Cópias atualizadas com sucesso!");
 			}
 		}
 	?>

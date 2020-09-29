@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<form class="cd-form" method="POST" action="#">
-			<legend>Insira suas informações</legend>
+			<legend>Insira suas informações abaixo:</legend>
 			
 				<div class="error-message" id="error-message">
 					<p id="error"></p>
@@ -48,7 +48,7 @@
 		if(isset($_POST['m_register']))
 		{
 			if($_POST['m_balance'] < 500)
-				echo error_with_field("Você precisa de um saldo de pelo menos 500 reais para abrir uma conta", "m_balance");
+				echo error_with_field("Você precisa de um saldo de pelo menos 500 Cashback para abrir uma conta.", "m_balance");
 			else
 			{
 				$query = $con->prepare("(SELECT username FROM member WHERE username = ?) UNION (SELECT username FROM pending_registrations WHERE username = ?);");
@@ -68,7 +68,7 @@
 						$query = $con->prepare("INSERT INTO pending_registrations(username, password, name, email, balance) VALUES(?, ?, ?, ?, ?);");
 						$query->bind_param("ssssd", $_POST['m_user'], sha1($_POST['m_pass']), $_POST['m_name'], $_POST['m_email'], $_POST['m_balance']);
 						if($query->execute())
-							echo success("Informações gravados. Você será notificado sobre o ID de e-mail fornecido quando suas informações estiverem sido verificados");
+							echo success("Informações gravados. Você será notificado sobre o ID de e-mail fornecido quando suas informações estiverem sido verificados.");
 						else
 							echo error_without_field("Não foi possível gravar. Por favor, tente novamente mais tarde.");
 					}

@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<form class="cd-form" method="POST" action="#">
-			<legend>Digite as informações necessárias</legend>
+			<legend>Digite as informações necessárias abaixo:</legend>
 			
 				<div class="error-message" id="error-message">
 					<p id="error"></p>
@@ -45,8 +45,8 @@
 				$query = $con->prepare("UPDATE member SET balance = balance + ? WHERE username = ?;");
 				$query->bind_param("ds", $_POST['m_balance'], $_POST['m_user']);
 				if(!$query->execute())
-					die(error_without_field("ERRO: Não consegui adicionar equilíbrio"));
-				echo success("Saldo atualizado com sucesso");
+					die(error_without_field("ERRO: Ops! Não possível adicionar valor."));
+				echo success("Saldo atualizado com sucesso!");
 			}
 		}
 	?>

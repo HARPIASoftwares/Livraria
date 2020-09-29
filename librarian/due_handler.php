@@ -47,12 +47,12 @@
 			}
 			
 			if($successfulEmails > 0)
-				echo "<h2 align='center'>".$successfulEmails." Membro notificado com sucesso</h2>";
+				echo "<h2 align='center'>".$successfulEmails." Membro notificado com sucesso!</h2>";
 			else
 				echo "ERRO: Nenhum membro pôde ser notificado.";
 		}
 		else
-			echo "<h2 align='center'>Sem lembretes pendentes</h2>";
+			echo "<h2 align='center'>Uhhuu!!! Sem lembretes pendentes!</h2>";
 	?>
 	</body>
 </html>

@@ -19,7 +19,7 @@
 			$result = $query->get_result();
 			$rows = mysqli_num_rows($result);
 			if($rows == 0)
-				echo "<h2 align='center'>Sem pedidos de registro pendentes</h2>";
+				echo "<h2 align='center'>Ops, que pena! Sem pedidos de registro pendentes.</h2>";
 			else
 			{
 				echo "<form class='cd-form' method='POST' action='#'>";
@@ -77,19 +77,19 @@
 						$query = $con->prepare("INSERT INTO member(username, password, name, email, balance) VALUES(?, ?, ?, ?, ?);");
 						$query->bind_param("ssssd", $username, $row[1], $row[2], $row[3], $row[4]);
 						if(!$query->execute())
-							die(error_without_field("ERRO: Não foi possível inserir valores"));
+							die(error_without_field("ERRO: Não foi possível inserir valores."));
 						$members++;
 						
 						$to = $row[3];
-						$subject = "Adesão à biblioteca aceita";
+						$subject = "Adesão à biblioteca aceita!";
 						$message = "Sua adesão foi aceita pela biblioteca. Agora você pode solicitar livros com sua conta.";
 						mail($to, $subject, $message, $header);
 					}
 				}
 				if($members > 0)
-					echo success("Usuário inserido com sucesso! ".$members." novo membro.");
+					echo success("Oba! Usuário inserido com sucesso! ".$members." novo membro.");
 				else
-					echo error_without_field("Nenhum registro selecionado");
+					echo error_without_field("Ops! Nenhum registro selecionado.");
 			}
 			
 			if(isset($_POST['l_delete']))
@@ -108,19 +108,20 @@
 						$query = $con->prepare("DELETE FROM pending_registrations WHERE username = ?;");
 						$query->bind_param("s", $username);
 						if(!$query->execute())
-							die(error_without_field("ERRO: Falha na exclusão de valores"));
+							die(error_without_field("ERRO: Falha na exclusão de valores."));
 						$requests++;
 						
 						$to = $email;
-						$subject = "Pedido de adesão rejeitado";
-						$message = "Sua adesão foi rejeitada pela biblioteca. Entre em contato com um administrador para obter mais informações.";
+						$subject = "Pedido de adesão rejeitado.";
+						$message = "Sua adesão foi rejeitada pela biblioteca. 
+						Entre em contato com o administrador pelo número: (93) 99191-3389 para obter mais informações.";
 						mail($to, $subject, $message, $header);
 					}
 				}
 				if($requests > 0)
-					echo success("Excluído com sucesso".$requests." Registro");
+					echo success("Excluído com sucesso!".$requests." Registro");
 				else
-					echo error_without_field("Nenhum registro foi selecionado");
+					echo error_without_field("Ops! Nenhum registro selecionado.");
 			}
 		?>
 	</body>

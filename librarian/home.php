@@ -6,7 +6,7 @@
 
 <html>
 	<head>
-		<title>Bem-vindo</title>
+		<title>Livraria</title>
 		<link rel="stylesheet" type="text/css" href="css/home_style.css" />
 	</head>
 	<body>
@@ -29,6 +29,8 @@
 			<a href="due_handler.php">
 				<input type="button" value="LEMBRETES" />
 			</a><br /><br />
+			<h2 align="center">"Trocava toda a minha tecnologia por uma tarde com Sócrates."<h2>
 		</div>
+		<h2 align="center">- Steve Jobs<h2>
 	</body>
 </html>

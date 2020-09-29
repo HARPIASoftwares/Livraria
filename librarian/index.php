@@ -42,7 +42,7 @@
 			$query->execute();
 			// CORRIGIR DEPOIS QUANDO O USER ERRA SENHA
 			if(mysqli_num_rows($query->get_result()) != 0)
-				echo error_without_field("Usuário ou senha inválidos!");
+				echo error_without_field("Usuário ou senha inválido!");
 			else
 			{
 				$_SESSION['type'] = "librarian";

@@ -4,7 +4,7 @@
 --
 -- Servidor: 127.0.0.1
 -- Data e Hora: 28-09-2020 as 11:35:10
--- Versão del servidor: 10.4.11-MariaDB
+-- Versão do servidor: 10.4.11-MariaDB
 -- Versão de PHP: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -52,10 +52,10 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`isbn`, `title`, `author`, `category`, `price`, `copies`) VALUES
-('0000545010225', 'Harry Potter e as Relíquias da Morte', 'J. K. Rowling', 'Ficção', 55000, 451),
-('0000553103547', 'Jogo dos Tronos', 'George R. R. Martin', 'Ficção', 50000, 13),
-('0000553106635', 'Uma Tempestade de Espadas', 'George R. R. Martin', 'Ficção', 55000, 15),
-('0000553108034', 'Choque de Reyes', 'George R. R. Martin', 'Ficção', 50000, 10),
+('0000545010225', 'Tempos digitais: ensinando e aprendendo com tecnologia', 'Hélio Lemes', 'Educação', 55000, 451),
+('0000553103547', 'Tecnologia na escola: abordagem pedagógica e abordagem técnica', 'Nanci Aparecida', 'Educação', 50000, 13),
+('0000553106635', 'Sala de aula invertida: uma metodologia ativa de aprendizagem', 'Jonathan Bergmann', 'Educação', 55000, 15),
+('0000553108034', 'Tecnologias que educam', 'Fábio C. A. Carvalho', 'Educação', 50000, 10),
 ('0000553801503', 'Uma Festa para os Corvos', 'George R. R. Martin', 'Ficção', 60000, 20),
 ('0000747532699', 'Harry Potter e a Pedra Filosofal', 'J. K. Rowling', 'Ficção', 30000, 12),
 ('0000747538492', 'Harry Potter e a Câmara Secreta', 'J. K. Rowling', 'Ficção', 30000, 10),
@@ -63,9 +63,9 @@ INSERT INTO `book` (`isbn`, `title`, `author`, `category`, `price`, `copies`) VA
 ('0000747546240', 'Harry Potter e o Cálice de Fogo', 'J. K. Rowling', 'Ficção', 40000, 15),
 ('0000747551006', 'Harry Potter e a Ordem da Fênix', 'J. K. Rowling', 'Ficção', 40000, 20),
 ('0000747581088', 'Harry Potter e o Príncipe Mestiço', 'J. K. Rowling', 'Ficção', 50000, 25),
-('9780066620992', 'Bom para Ótimo', 'Jim Collins', 'Não ficção', 30000, 10),
+('9780066620992', 'O estudo em ambiente virtual de aprendizagem: um guia prático', 'Antonio Siemsen', 'Educação', 30000, 10),
 ('9780241257555', 'O Túnio dos Pombos', 'John le Carrão', 'Não ficção', 20000, 25),
-('9780439023511', 'Tordo', 'Suzanne Collins', 'Ficção', 50000, 20),
+('9780439023511', 'O cotidiano da escola: as novas demandas educacionais', 'Denise D’Aurea', 'Educação', 50000, 20),
 ('9780439023528', 'O Jogo da Fome', 'Suzanne Collins', 'Ficção', 40000, 10),
 ('9780545227247', 'Em Chamas', 'Suzanne Collins', 'Ficção', 40000, 15),
 ('9780553801477', 'Uma Dança com os Dragões', 'George R. R. Martin', 'Ficção', 60000, 30),
@@ -78,7 +78,7 @@ INSERT INTO `book` (`isbn`, `title`, `author`, `category`, `price`, `copies`) VA
 ('9789350777077', 'Sistemas Avançados de Gerenciamento de Banco de Dados', 'Daniel Camargo', 'Educação', 60000, 30),
 ('9789350777121', 'Sistemas operativos', 'Roberto García', 'Educação', 50000, 24),
 ('9789351194545', 'Tecnologias de Código Aberto', 'Juan Castro', 'Educação', 10000, 20),
-('9789381626719', 'Continue com Fome continue Tolo', 'Andrés Mendoza', 'Não Ficção', 10000, 5);
+('9789381626719', 'Linguagem, tecnologia e educação', 'Ana Elisa', 'Educação', 10000, 5);
 
 
 -- --------------------------------------------------------
@@ -150,7 +150,7 @@ CREATE TABLE `member` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Definição do usuário da Tabela `member`
+-- Definição do usuário inicial da Tabela `member`
 --
 
 INSERT INTO `member` (`id`, `username`, `password`, `name`, `email`, `balance`) VALUES
